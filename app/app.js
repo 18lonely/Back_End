@@ -1,5 +1,6 @@
 const express = require("express")
 const cors = require('cors')
+const adminRouter = require('../router/adminRouter')
 const userRouter = require('../router/userRouter')
 const productRouter = require('../router/productRouter')
 const {connect} = require('../db/db')
@@ -16,6 +17,10 @@ app.use(cors())
 app.get('/', (req, res, next) => {
     res.status(200).json({message: "Service is up"})
 })
+
+// Router
+// http://localhost:3000/admin
+app.use('/admin', adminRouter)
 
 // Router
 // http://localhost:3000/users

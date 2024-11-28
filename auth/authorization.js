@@ -14,4 +14,18 @@ const auth = (req, res, next) => {
     }
 }
 
-module.exports = {auth}
+const authAdmin = (req, res, next) => {
+    try {
+        const [, token] = req.headers.authorization.split(' ')
+        const decode = jwt.verify(token, process.env.jwt_secret)
+        if(decode.user.role == 'admin') {
+            next()
+        } else {
+            new Error(messages.AUTH_ADMIN_FAILED)
+        }
+    } catch(err) {
+        errorTemplate(res, err, messages.AUTH_FAILED, 500)
+    }
+}
+
+module.exports = {auth, authAdmin}

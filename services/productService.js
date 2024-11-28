@@ -20,7 +20,6 @@ exports.getAllProducts = async(req, res) => {
 
 exports.GetProductById = async (req, res) => {
     try {
-        console.log(req.params.productId)
         const product = await findProduct({_id: req.params.productId}, '-__v')
         
         if(!product) {
