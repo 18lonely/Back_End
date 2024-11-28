@@ -7,8 +7,8 @@ MongoDB: [LINK](https://www.mongodb.com/try/download/community)
 ## Run this command
     npm install
 ## Create files .env
-> port=...
-> mongoose=...
+> port=...<br />
+> mongoose=...<br />
 > jwt_secret=...
 # To run project
 ## Run this command
