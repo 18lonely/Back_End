@@ -24,5 +24,7 @@ module.exports = {
     PRODUCT_NOT_DELETED: 'Prodcut not deleted',
 
     AUTH_FAILED: 'Authorization failed',
-    AUTH_ADMIN_FAILED: 'Authorization failed, admin only'
+    AUTH_ADMIN_FAILED: 'Authorization failed, admin only',
+
+    PERMISSION_DENIED: 'Permission denied'
 }

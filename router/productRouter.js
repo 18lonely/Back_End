@@ -4,10 +4,10 @@ const {getAllProducts, GetProductById, PostProduct, UpdateProduct, DeleteProduct
 const {auth} = require('../auth/authorization')
 
 // http://localhost:3000/products
-router.get('/', auth, getAllProducts)
+router.get('/', getAllProducts)
 
 // http://localhost:3000/products/{{productId}}
-router.get('/:productId', auth, GetProductById)
+router.get('/:productId', GetProductById)
 
 // http://localhost:3000/products/
 router.post('/', auth, PostProduct)

@@ -20,6 +20,4 @@ router.delete('/users/:userId', authAdmin, DeleteUser)
 // http://localhost:3000/admin/users/{{userId}}
 router.put('/users/:userId', authAdmin, UpdateUser)
 
-// Get all product, add, delete, edit
-
 module.exports = router

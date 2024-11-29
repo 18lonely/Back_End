@@ -100,7 +100,6 @@ exports.LoginUser = async (req, res) => {
 exports.DeleteUser = async (req, res) => {
     try {
         const id = req.params.userId
-        console.log(id)
         const result = await deleteUser({_id: id})
         return successTemplate(res, result, messages.USER_DELETED, 200)
     } catch(err) {
