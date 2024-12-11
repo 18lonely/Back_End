@@ -1,13 +1,19 @@
 const express = require('express')
 const router = express.Router()
 
-const {authAdmin} = require('../auth/authorization')
-const { GetAllUser, RegisterUser, DeleteUser, UpdateUser } = require('../services/userServices')
+const {authAdmin, auth} = require('../auth/authorization')
+const { GetAllUser, RegisterUser, DeleteUser, UpdateUser, GetUserById } = require('../services/userServices')
+const {AdminLogin} = require('../services/adminService')
+
+router.post('/users/', AdminLogin)
 
 // Get all user, add, delete, edit
-// Get all user
-// http://localhost:3000/admin/users/
-router.get('/users/', authAdmin, GetAllUser)
+
+// Get user by id
+router.get('/users/:id', GetUserById)
+// Get all user by role
+// http://localhost:3000/admin/users/role
+router.post('/users/role/:page', authAdmin, GetAllUser)
 // Add user with role user or admin
 // http://localhost:3000/admin/users/
 router.post('/users/', authAdmin, RegisterUser)
@@ -18,6 +24,6 @@ router.delete('/users/:userId', authAdmin, DeleteUser)
 
 // Update user by ID
 // http://localhost:3000/admin/users/{{userId}}
-router.put('/users/:userId', authAdmin, UpdateUser)
+router.put('/users/:userId', auth, UpdateUser)
 
 module.exports = router

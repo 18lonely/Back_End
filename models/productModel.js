@@ -35,11 +35,9 @@ const productSchema = mongoose.Schema({
         type: String,
         required: false
     },
-    productImg: {
-        data: Buffer,
-        type: String,
-        required: true
-    }
+    productImgs: [{
+        type: String
+    }]
 })
 
 module.exports = mongoose.model('Product', productSchema)

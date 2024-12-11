@@ -1,10 +1,12 @@
 module.exports = {
-    USER_SUCCESSFUL_REGISTER: 'Successful Registration',
-    USER_EXIST: 'User exist, try logging in',
+    FORGOTPASSWORD_SUCCESSFUL: 'Tạo mật khẩu mới thành công',
+    SUCCESSFUL_GET_USER_BY_ID: 'Successful GET user by ID',
+    USER_SUCCESSFUL_REGISTER: 'Đăng ký thành công',
+    USER_EXIST: 'User đã tồn tại',
 
     USER_LOGIN_SUCCESSFUL: 'Login Successful',
-    UNABLE_TO_FIND_USER: 'Authentication Failed: Unable to find user',
-    EMAIL_PASSWORD_DOES_NOT_MATCH: 'Authentication failed: Email or password does not match',
+    UNABLE_TO_FIND_USER: 'User không tồn tại',
+    EMAIL_PASSWORD_DOES_NOT_MATCH: 'Đăng nhập thất bại: Email or mật khẩu không chính xác',
 
     USER_DELETED: 'User deleted',
     USER_NOT_DELETED: 'User deleted',
@@ -23,8 +25,11 @@ module.exports = {
     PRODUCT_DELETED: 'Prodcut deleted',
     PRODUCT_NOT_DELETED: 'Prodcut not deleted',
 
-    AUTH_FAILED: 'Authorization failed',
-    AUTH_ADMIN_FAILED: 'Authorization failed, admin only',
+    AUTH_FAILED: 'Đăng nhập thất bại',
+    AUTH_ADMIN_FAILED: 'Đăng nhập thất bại, chỉ ADMIN',
 
-    PERMISSION_DENIED: 'Permission denied'
+    PERMISSION_DENIED: 'Không có quyền truy cập!',
+    ADMIN_ONLY: 'Chỉ ADMIN!',
+
+    EMAIL_EXIST: 'Email đã tồn tại!'
 }

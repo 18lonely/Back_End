@@ -2,18 +2,27 @@ const mongoose = require('mongoose')
 const messages = require('../messages/messages')
 const errorTemplate = require('../templates/errorTemplate')
 const successTemplate = require('../templates/successTemplate')
-const {findProducts, findProduct, saveProduct, updateProduct, deleteProduct} = require('../db/productDb')
+const {findProducts, findProduct, saveProduct, updateProduct, deleteProduct, searchProducts} = require('../db/productDb')
 const Product = require('../models/productModel')
 require('dotenv').config()
 const jwt = require('jsonwebtoken')
 
 exports.getAllProducts = async(req, res) => {
     try {
-        const products = await findProducts({}, '-__v')
+        const page = parseInt(req.params.page) || 1
+        const limit = 10
+        const skip = (page - 1) * limit
+        const products = await findProducts({}, skip, limit, '-__v')
+        const totalProducts = await Product.countDocuments()
+        const totalPage = Math.ceil(totalProducts / limit)
 
         return res.status(200).json({
             message: "Succesful Products",
-            products: products
+            products: products,
+            page: page,
+            totalProducts: totalProducts,
+            limit: limit,
+            totalPage: totalPage
         })
     } catch(err) {
         return errorTemplate(res, err, err.message, 500)
@@ -79,8 +88,9 @@ exports.UpdateProduct = async (req, res) => {
         if(isAdmin || decode.user._id == productFound.user) {
             const product = new Product()
 
-            const update = Object.assign(product, req.body)
-            const result = await updateProduct({_id: id}, update)
+            const newProduct = Object.assign(product, req.body)
+    
+            const result = await updateProduct({_id: id}, newProduct)
 
             return successTemplate(res, result, messages.PRODUCT_UPDATED, 200)
         } else {
@@ -106,8 +116,6 @@ exports.DeleteProduct = async (req, res) => {
         const decode = jwt.verify(token, process.env.jwt_secret)
         const isAdmin = decode.user.role == 'admin' ? true : false
 
-        console.log(decode.user._id == productFound.user)
-
         if(isAdmin || decode.user._id == productFound.user) {
             const result = await deleteProduct({_id: id})
             return successTemplate(res, result, messages.PRODUCT_DELETED, 200)
@@ -116,5 +124,56 @@ exports.DeleteProduct = async (req, res) => {
         }
     } catch(err) {
         return errorTemplate(res, err, messages.PRODUCT_NOT_DELETED, 500)
+    }
+}
+
+exports.getAllProductByUserId = async (req, res) => {
+    try {
+        const page = parseInt(req.params.page) || 1
+        const limit = 10
+        const skip = (page - 1) * limit
+        const products = await findProducts({user: req.params.userid}, skip, limit, '-__v')
+        const totalProducts = await Product.countDocuments({user: req.params.userid})
+        const totalPage = Math.ceil(totalProducts / limit)
+        
+        return res.status(200).json({
+            message: "Succesful Products",
+            products: products,
+            page: page,
+            totalProducts: totalProducts,
+            limit: limit,
+            totalPage: totalPage
+        })
+    } catch(err) {
+        return errorTemplate(res, err, err.message, 500)
+    }
+}
+
+exports.SearchProducts = async (req, res) => {
+    try {
+        const keyword = req.params.key
+        const page = parseInt(req.params.page) || 1
+        const limit = 10
+        const skip = (page - 1) * limit
+        const products = await searchProducts(keyword, skip, limit, '-__v')
+        const totalProducts = await Product.countDocuments({
+            $or: [
+                { productName: { $regex: keyword, $options: 'i' } },
+                { productCity: { $regex: keyword, $options: 'i' } }
+            ]
+        })
+        const totalPage = Math.ceil(totalProducts / limit)
+
+        return res.status(200).json({
+            message: "Succesful Products",
+            products: products,
+            page: page,
+            totalProducts: totalProducts,
+            limit: limit,
+            totalPage: totalPage
+        })
+
+    } catch(err) {
+        return errorTemplate(res, err, err.message, 500)
     }
 }

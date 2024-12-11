@@ -1,7 +1,7 @@
 const User = require('../models/userModel')
 
-const findUsers = async (obj, selectValues) => {
-    return await User.find(obj).select(selectValues).exec()
+const findUsers = async (obj, selectValues, skip, limit) => {
+    return await User.find(obj).select(selectValues).sort({ username: 1 }).skip(skip).limit(limit).exec()
 }
 
 const updateUser = async (filter, update) => {
